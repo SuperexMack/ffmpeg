@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "express": "^5.2.1",
-    "ffmpeg": "^0.0.4"
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.3"
   }
 }
