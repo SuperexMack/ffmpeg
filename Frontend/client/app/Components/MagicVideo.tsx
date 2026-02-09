@@ -6,15 +6,15 @@ export function HeroVideoDialogDemo() {
       <HeroVideoDialog
         className="block dark:hidden"
         animationStyle="from-center"
-        videoSrc="https://www.youtube.com/embed/UUGmKQ-S4ow?si=f4_3xTBuaIFBHL9o"
-        thumbnailSrc="/vidimage.png"
+        videoSrc="https://www.youtube.com/embed/jJgqHIqfOBk?si=pmCRIi1-zI0YYBLD"
+        thumbnailSrc="/mainigg.png"
         thumbnailAlt="Hero Video"
       />
       <HeroVideoDialog
         className="hidden dark:block"
         animationStyle="from-center"
-        videoSrc="https://www.youtube.com/embed/qh3NGpYRG3I?si=4rb-zSdDkVK9qxxb"
-        thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+        videoSrc="https://www.youtube.com/embed/jJgqHIqfOBk?si=pmCRIi1-zI0YYBLD"
+        thumbnailSrc="/mainigg.png"
         thumbnailAlt="Hero Video"
       />
     </div>
