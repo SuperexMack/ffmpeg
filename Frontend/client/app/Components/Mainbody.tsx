@@ -1,9 +1,10 @@
 import { Github , Building , Heart , Hammer} from "lucide-react"
+import Link from "next/link"
 
 export default function(){
     return(
         <>
-        <div className="w-[80%] mt-[60px]  flex h-auto flex-col space-y-7 items-center">
+        <div className="md:w-[80%] w-full p-32 flex h-auto flex-col space-y-3 items-center">
 
 
               <div className="flex space-x-4">
@@ -11,31 +12,31 @@ export default function(){
                   <h1 className="text-blue-500 text-[15px] font-bold">Now in Beta</h1>
               </div>
 
-             <div className="w-[50%] flex flex-col items-center space-y-1">
-                <h1 className="text-[70px] font-bold">Stop video leaks.</h1>
-                <h1 className="text-[50px] font-bold bg-gradient-to-r from-sky-800 to-sky-400 text-transparent bg-clip-text">Track every copy.</h1>
+             <div className="md:w-[50%] md:mt-5 mt-[60px] w-full flex flex-col items-center md:space-y-1 space-y-10">
+                <h1 className="md:text-[70px] text-[50px] font-bold text-center">Stop video leaks.</h1>
+                <h1 className="md;text-[50px] text-[30px] font-bold bg-gradient-to-r from-sky-800 to-sky-400 text-transparent bg-clip-text">Track every copy.</h1>
                 <p className="text-[20px] font-light text-center">
                     Watermark embeds invisible, unique identifiers into your 
                     videos. When content leaks, you'll know exactly who shared it.
                 </p>
 
-                <div className="flex w-full space-x-9 justify-center mt-[30px]">
+                <div className="flex w-full space-x-4 md:space-x-9 justify-center mt-[30px]">
 
 
                    <div className="w-auto h-auto p-2 flex space-x-4 rounded-lg bg-blue-600">
                     <Github className="text-white"></Github>
-                    <h1 className="text-white font-bold">View on Github</h1>
+                    <Link href="https://github.com/SuperexMack/ffmpeg" className="text-white font-bold">View on Github</Link>
                     </div>
 
                      <div className="w-auto h-auto p-2 flex space-x-4 border border-slate-200 rounded-lg hover:border-slate-700">
                     
-                    <h1 className="font-bold text-black">Read ocumentation</h1>
+                    <Link href="/Doc" className="font-bold text-black">Read ocumentation</Link>
                     </div>
 
 
                 </div>
 
-                <div className="flex w-full space-x-9 justify-center mt-[40px]">
+                <div className="flex w-full space-x-3 md:space-x-9 justify-center mt-[40px]">
 
 
                   <div className="flex space-x-3">

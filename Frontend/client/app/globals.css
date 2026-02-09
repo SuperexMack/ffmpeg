@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Frijole&family=Playwrite+CZ:wght@100..400&family=Sirin+Stencil&family=VT323&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -122,3 +123,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* .mainhead{
+  font-family: "Sirin Stencil";
+  font-weight: 600;
+  font-style: normal;
+  overflow-x: hidden;
+} */
