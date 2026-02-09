@@ -6,10 +6,10 @@ export function ProtectSection(){
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
             How It Protects Your Content
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="md:text-xl text-[20px] overflow-x-hidden md:mt-1 mt-5  text-gray-600 max-w-2xl mx-auto">
             Advanced security features designed to trace and prevent unauthorized content sharing
           </p>
         </div>

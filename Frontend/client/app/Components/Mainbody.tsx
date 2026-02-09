@@ -4,7 +4,7 @@ import Link from "next/link"
 export default function(){
     return(
         <>
-        <div className="md:w-[80%] w-full p-32 flex h-auto flex-col space-y-3 items-center">
+        <div className="md:w-[80%] w-full md:p-32 p-2 mt-11 flex h-auto flex-col space-y-3 items-center">
 
 
               <div className="flex space-x-4">
@@ -20,17 +20,17 @@ export default function(){
                     videos. When content leaks, you'll know exactly who shared it.
                 </p>
 
-                <div className="flex w-full space-x-4 md:space-x-9 justify-center mt-[30px]">
+               <div className="md:flex md:flex-row flex-col md:space-y-0 space-y-5 items-center justify-center  w-full p-2 space-x-6 mt-[30px]">
 
 
-                   <div className="w-auto h-auto p-2 flex space-x-4 rounded-lg bg-blue-600">
+                   <div className="md:w-auto w-full h-auto p-2 flex justify-center space-x-4 rounded-lg bg-blue-600">
                     <Github className="text-white"></Github>
-                    <Link href="https://github.com/SuperexMack/ffmpeg" className="text-white font-bold">View on Github</Link>
+                    <Link href={"https://github.com/SuperexMack/ffmpeg"} className="text-white font-bold text-center">View on Github</Link>
                     </div>
 
-                     <div className="w-auto h-auto p-2 flex space-x-4 border border-slate-200 rounded-lg hover:border-slate-700">
+                     <div className="md:w-auto w-full h-auto p-2 justify-center flex border border-slate-200 rounded-lg hover:border-slate-700">
                     
-                    <Link href="/Doc" className="font-bold text-black">Read ocumentation</Link>
+                    <Link href={"/Doc"} className="font-bold text-black text-center">Read documentation</Link>
                     </div>
 
 
@@ -61,7 +61,7 @@ export default function(){
 
              </div>
 
-                <div className="w-[80%] h-[500px]  mt-[100px]">
+                <div className="md:w-[80%] w-[95%] h-[500px] mt-[50px]">
                    <video muted loop className="w-full h-full object-contain rounded-lg" src={"/landingVid.mp4"} autoPlay={true}></video>
                 </div>
 

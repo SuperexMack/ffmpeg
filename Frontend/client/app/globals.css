@@ -130,3 +130,7 @@
   font-style: normal;
   overflow-x: hidden;
 } */
+
+body{
+  overflow-x: hidden;
+}
