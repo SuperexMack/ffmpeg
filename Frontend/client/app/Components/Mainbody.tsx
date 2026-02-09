@@ -56,10 +56,19 @@ export default function(){
 
                 </div>
 
-             </div>
              
 
+             </div>
+
+                <div className="w-[80%] h-[500px]  mt-[100px]">
+                   <video muted loop className="w-full h-full object-contain rounded-lg" src={"/landingVid.mp4"} autoPlay={true}></video>
+                </div>
+
+      
         </div>
+
+        
+
         </>
     )
 }
