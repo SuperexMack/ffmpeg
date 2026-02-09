@@ -1,18 +1,48 @@
 "use client"
 
 import { CloudUpload } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 
 export default function AddWaterMark() {
 
   
-  let insertFileRef = useRef(null)
+  let insertFileRef = useRef<HTMLInputElement>(null)
+  const [gotFile,setGotFile] = useState<string>("")
 
-  const caller = ()=>{
-    if(!insertFileRef.current) return
+  const [loading,setLoading] = useState(false)
+
+  const [Videoloading,setVideoLoading] = useState(false)
+
+  const SendFile = ()=>{
+     insertFileRef.current?.click()
   }
 
+  const sendThefile = async(file:File)=>{
+    setLoading(true)
+    const formData = new FormData()
+    formData.append("file",file)
+
+    let res = await fetch("http://localhost:9000/getvideo/sendVideo",{
+        method:"POST",
+        body:formData
+    })
+
+    const blob = await res.blob()
+    const VideoURL = URL.createObjectURL(blob)
+    setLoading(false)
+    setVideoLoading(true)
+    setGotFile(VideoURL)
+  }
+
+
+  const caller = (e:any)=>{
+    const file = e.target.files[0]
+    if(file) sendThefile(file)
+  }
+
+
+  
   return (
     <div className="h-auto">
       
@@ -27,7 +57,7 @@ export default function AddWaterMark() {
         </div>
 
        
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-12 hover:shadow-md transition-shadow">
+        <div className="h-auto border border-gray-200 rounded-2xl shadow-sm p-12 hover:shadow-md transition-shadow">
           <div className="flex flex-col items-center">
             
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
@@ -35,19 +65,37 @@ export default function AddWaterMark() {
             </div>
 
            
-            <button onClick={caller} className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+            <button onClick={SendFile} className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
               Add Video
             </button>
 
-            <input className='hidden' ref={insertFileRef} type='file'></input>
+            <input onChange={caller} className='hidden' ref={insertFileRef} type='file'></input>
 
           </div>
 
-          <div className='w-full mt-[50px] hidden h-[500px] flex items-center justify-center'>
+          <div className='w-full mt-[50px] h-auto flex flex-col items-center'>
 
-           <div className='w-[50px] mt-[30px] h-[50px] rounded-full border-2 border-black animate-spin border-t-white'>
+            {loading?(
+
+           <div className='w-[50px] h-[50px] rounded-full border-2 border-black animate-spin border-t-white'>
 
           </div>
+
+            ):(
+                <>
+                </>
+            )}
+
+
+          {Videoloading?(
+             <div className="w-[90%]  h-[400px]">
+                <video controls className="w-full rounded-lg h-full object-contain rounded-lg" src={gotFile} autoPlay={true}></video>
+          </div>
+
+          ):(
+            <>
+            </>
+          )}
 
           </div>
 
