@@ -49,7 +49,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.6 of Savebiss"})
+  return res.json({msg:"Welcome to the  v1 of Savebiss on vercel"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
