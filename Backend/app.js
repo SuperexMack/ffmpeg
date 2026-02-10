@@ -5,8 +5,11 @@ import fs from "fs";
 import cors from "cors";
 import multer from "multer";
 import { rateLimit } from 'express-rate-limit'
+import { promisify } from "util";
 const app = express();
 const PORT = 9000;
+
+const asyncExec = promisify(exec)
 
 
 app.use(cors({
@@ -49,10 +52,12 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.7 of Savebiss"})
+  return res.json({msg:"Welcome to the  v1.9 of Savebiss"})
 })
 
-app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
+app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {
+  try{
+
   console.log("I am inside the req")
   const filee = req.file.path;
 
@@ -69,7 +74,7 @@ app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
 
 console.log("aur aandar")
 
-  exec(command, (error, stderr) => {
+  await asyncExec(command, (error, stderr) => {
     if (error) {
       console.error("FFmpeg ERROR");
       console.error(stderr);
@@ -86,6 +91,12 @@ console.log("aur aandar")
        fs.unlink("./addingwatermarkoutput.mp4", () => {});
     },3000)
   });
+
+}
+
+catch(error){
+  console.log("There is some error while loading the file in the catch part")
+}
   
 });
 
