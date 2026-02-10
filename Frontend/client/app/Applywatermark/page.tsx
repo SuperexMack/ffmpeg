@@ -4,151 +4,136 @@ import { CloudUpload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function AddWaterMark() {
-  const insertFileRef = useRef<HTMLInputElement>(null);
 
+  interface userinfo{
+    userstatus : string
+  }
+
+  
+  let insertFileRef = useRef<HTMLInputElement>(null);
   const [gotFile, setGotFile] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [videoLoading, setVideoLoading] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
+
+  const [userId,setUserId] = useState<string|null>(null)
+
+  const [Videoloading, setVideoLoading] = useState(false);
 
   const SendFile = () => {
     insertFileRef.current?.click();
   };
-
-  const sendTheFile = async (file: File) => {
-    try {
-      setLoading(true);
-      setVideoLoading(false);
-      setGotFile("");
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch(
-        "https://ffmpeg-production-1b52.up.railway.app/getvideo/sendVideo",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!res.ok) {
-        toast.error("Upload failed");
-        setLoading(false);
-        return;
-      }
-
+  const sendThefile = async (file: File) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    let res = await fetch("https://ffmpeg-production-1b52.up.railway.app/getvideo/sendVideo", {
+      method: "POST",
+      body: formData,
+    });
+    if (res.status === 429) {
       const data = await res.json();
-      setUserId(data.userid);
-      toast.success(data.msg);
-    } catch (err) {
-      toast.error("Something went wrong");
-      setLoading(false);
+      toast.error(data.msg);
+      return;
     }
+    let update = await res.json();
+    setUserId(update.userid)
+    toast.success(update.msg);
   };
-
-  const caller = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) sendTheFile(file);
+  const caller = (e: any) => {
+    const file = e.target.files[0];
+    if (file) sendThefile(file);
   };
-
   useEffect(() => {
     if (!userId) return;
-
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(
-          `https://ffmpeg-production-1b52.up.railway.app/pooling/${userId}`
-        );
-
-        if (res.status === 202) {
-          console.log("processing...");
-          return;
+        const response = await fetch(`https://ffmpeg-production-1b52.up.railway.app/pooling/${userId}`);
+        if (response.status === 202){
+          toast.info("Processing")
+          return
         }
 
-        if (!res.ok) {
-          toast.error("Processing failed");
-          clearInterval(interval);
-          setLoading(false);
-          return;
+        if (response.status === 404) {
+            const data = await response.json();
+            toast.error(data.msg || "Processing failed");
+            clearInterval(interval);
+            return;
         }
 
-        const blob = await res.blob();
-        const videoURL = URL.createObjectURL(blob);
 
-        setGotFile(videoURL);
+        if (response.status !== 200) return;
+        const blob = await response.blob();
+        const VideoURL = URL.createObjectURL(blob);
         setLoading(false);
         setVideoLoading(true);
-        toast.success("Video ready!");
 
-        clearInterval(interval);
+        toast.success("Video Req sent!!");
+
+        console.log("The video dimension is " + VideoURL);
+        setGotFile(VideoURL);
+        clearInterval(interval); // stop polling once video is ready
       } catch (err) {
-        console.log("Polling error", err);
+        console.log("Pooling error:", err);
       }
-    }, 5000);
-
+    }, 7000);
     return () => clearInterval(interval);
   }, [userId]);
 
   return (
     <div className="h-auto mt-[50px] p-3">
-      <Navbar />
-
+      <Navbar></Navbar>
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Add Dynamic Watermark
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Upload a video and wait while we process it.
+            Using the current version of application is quite simple. Just click
+            the button below and you will be able to submit the video.
           </p>
         </div>
-
-        <div className="border border-gray-200 rounded-2xl shadow-sm p-12">
+        <div className="h-auto border border-gray-200 rounded-2xl shadow-sm p-12 hover:shadow-md transition-shadow">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
-              <CloudUpload className="text-blue-500 w-[40px] h-[40px]" />
+              <CloudUpload className="text-blue-500 w-[50px] h-[50px]"></CloudUpload>
             </div>
-
             <button
               onClick={SendFile}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
             >
               Add Video
             </button>
-
             <input
-              ref={insertFileRef}
               onChange={caller}
-              type="file"
-              accept="video/*"
               className="hidden"
-            />
+              ref={insertFileRef}
+              type="file"
+            ></input>
           </div>
-
-          <div className="mt-10 flex flex-col items-center">
-            {loading && (
-              <div className="w-[50px] h-[50px] border-4 border-black border-t-transparent rounded-full animate-spin" />
+          <div className="w-full mt-[50px] h-auto flex flex-col items-center">
+            {loading ? (
+              <div className="w-[50px] h-[50px] rounded-full border-2 border-black animate-spin border-t-white"></div>
+            ) : (
+              <></>
             )}
 
-            {videoLoading && (
-              <div className="w-full h-[400px] mt-6">
+            {Videoloading ? (
+              <div className="w-[90%]  h-[400px]">
                 <video
-                  src={gotFile}
                   controls
-                  autoPlay
-                  className="w-full h-full object-contain rounded-lg"
-                />
+                  className="w-full rounded-lg h-full object-contain rounded-lg"
+                  src={gotFile}
+                  autoPlay={true}
+                ></video>
               </div>
+            ) : (
+              <></>
             )}
           </div>
         </div>
       </div>
-
-      <ToastContainer />
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

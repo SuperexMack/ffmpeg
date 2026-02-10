@@ -11,7 +11,7 @@ const PORT = 9000;
 app.use(cors({
   origin:"https://savebiss.vercel.app",
   methods:["GET","POST"],
-  allowedHeaders:['Content-Type,Authorization']
+  allowedHeaders:["Content-Type","Authorization"]
 }));
 
 
@@ -67,7 +67,7 @@ app.post("/getvideo/sendVideo", userMiddleware , upload.single("file"), async (r
      userData[getUserId] = {status:"Processing"}
 
     const command = `
-    ffmpeg -i ${filee} \
+    ffmpeg -y -i "${filee}" \
 -vf \
 "drawtext=fontfile=font.ttf:fontsize=80:fontcolor=red@0.5:text=userid1345: \
  x=if(eq(mod(t\\,2)\\,0)\\,rand(0\\,(W-tw))\\,x): \
@@ -79,8 +79,8 @@ app.post("/getvideo/sendVideo", userMiddleware , upload.single("file"), async (r
 
     exec(command, (error) => {
       if (error) {
-        userData[getUserId] = {userstatus:"error"}
-        return
+          userData[getUserId].status = "error";
+          return;
       }
       
       userData[getUserId].status = "done";
