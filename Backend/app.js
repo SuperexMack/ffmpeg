@@ -19,16 +19,17 @@ const limiter = rateLimit({
   }
 })
 
-
-app.use(limiter)
-
 app.use(cors({
     origin : 'https://savebiss.vercel.app',
     methods : ["GET","POST"],
     allowedHeaders : ["Content-Type","Authorization"]
 }))
 
+app.options("*", cors());
+
 app.use(express.json({ limit: "100mb" }));
+
+app.use(limiter)
 
 console.log("mai aaya")
 
@@ -47,7 +48,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.3 of Savebiss"})
+  return res.json({msg:"Welcome to the  v1.4 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
