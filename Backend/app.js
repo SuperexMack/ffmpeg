@@ -52,7 +52,7 @@ var upload = multer({ storage: storage });
 let isReady = false;
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.2 of Savebiss on vercel"})
+  return res.json({msg:"Welcome to the  v1.2 of Savebiss on Railways"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {

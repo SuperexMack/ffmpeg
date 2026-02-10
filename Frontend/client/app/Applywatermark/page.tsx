@@ -1,7 +1,7 @@
 "use client"
 
 import { CloudUpload } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -13,8 +13,6 @@ export default function AddWaterMark() {
   const [gotFile,setGotFile] = useState<string>("")
 
   const [loading,setLoading] = useState(false)
-
-  const [Pool,setPool] = useState(false)
 
   const [Videoloading,setVideoLoading] = useState(false)
 
@@ -38,13 +36,12 @@ export default function AddWaterMark() {
       return;
     }
 
-    let updata = await res.json()
-
-    setPool(true)
-    
-    toast.success(updata.msg)
-
-    
+    const blob = await res.blob()
+    const VideoURL = URL.createObjectURL(blob)
+    setLoading(false)
+    setVideoLoading(true)
+    toast.success("Video Req sent!!")
+    setGotFile(VideoURL)
   }
 
 
@@ -52,41 +49,6 @@ export default function AddWaterMark() {
     const file = e.target.files[0]
     if(file) sendThefile(file)
   }
-
- 
-
-  useEffect(() => {
-  if (!Pool) return; 
-
-  const interval = setInterval(async () => {
-    try {
-      const response = await fetch("https://ffmpeg-production-1b52.up.railway.app/pooling");
-      
-      let checkingData = await response.json()
-
-      if(checkingData.msg === "Video is still processing, please wait"){
-        toast.success("Video is still processing, please wait")
-      }
-
-      const blob = await response.blob();
-      const VideoURL = URL.createObjectURL(blob);
-
-      setLoading(false);
-      setVideoLoading(true);
-      toast.success("Video Req sent!!");
-      setPool(false);
-      console.log("The video dimension is " + VideoURL)
-      setGotFile(VideoURL);
-
-      clearInterval(interval); 
-    } catch (err) {
-      console.log("Pooling error:", err);
-    }
-  }, 7000); 
-
-  return () => clearInterval(interval); 
-}, [Pool]);
-
 
 
   
