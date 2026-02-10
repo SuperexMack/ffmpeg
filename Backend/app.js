@@ -8,16 +8,6 @@ import { rateLimit } from 'express-rate-limit'
 const app = express();
 const PORT = 9000;
 
-const limiter = rateLimit({
-	windowMs: 40 * 60 * 1000, 
-	limit: 10, 
-	standardHeaders: 'draft-8', 
-	legacyHeaders: false,
-	ipv6Subnet: 56,
-  handler: (req,res)=>{
-    res.status(429).json({msg:"Too many req , Try after 40 minutes"})
-  }
-})
 
 app.use(cors({
     origin : 'https://savebiss.vercel.app',
@@ -28,6 +18,17 @@ app.use(cors({
 app.options("*", cors());
 
 app.use(express.json({ limit: "100mb" }));
+
+const limiter = rateLimit({
+	windowMs: 40 * 60 * 1000, 
+	limit: 10, 
+	standardHeaders: 'draft-8', 
+	legacyHeaders: false,
+	ipv6Subnet: 56,
+  handler: (req,res)=>{
+    res.status(429).json({msg:"Too many req , Try after 40 minutes"})
+  }
+})
 
 app.use(limiter)
 
