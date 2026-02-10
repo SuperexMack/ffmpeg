@@ -47,11 +47,11 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.2 of Savebiss"})
+  return res.json({msg:"Welcome to the  v1.3 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
-  
+  console.log("I am inside the req")
   const filee = req.file.path;
 
   console.log("aandar")
