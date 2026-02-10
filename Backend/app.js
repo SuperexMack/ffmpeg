@@ -19,6 +19,18 @@ app.use(cors({
 
 app.use(express.json({ limit: "100mb" }));
 
+const limiter = rateLimit({
+	windowMs: 40 * 60 * 1000, 
+	limit: 10, 
+	standardHeaders: 'draft-8', 
+	legacyHeaders: false,
+	ipv6Subnet: 56,
+  handler: (req,res)=>{
+    res.status(429).json({msg:"Too many req , Try after 40 minutes"})
+  }
+})
+
+app.use(limiter)
 
 console.log("mai aaya")
 
@@ -37,7 +49,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.1 of Savebiss on vercel"})
+  return res.json({msg:"Welcome to the  v1.7 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
