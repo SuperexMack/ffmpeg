@@ -18,7 +18,7 @@ export function BottomText(){
 
                      <div className="md:w-auto w-full h-auto p-2 justify-center flex border border-slate-200 rounded-lg hover:border-slate-700">
                     
-                    <Link href={"/Doc"} className="font-bold text-black text-center">Read documentation</Link>
+                    <Link href={"/Applywatermark"} className="font-bold text-black text-center">Use Application</Link>
                     </div>
 
 

@@ -3,12 +3,36 @@ import Link from  "next/link"
 import { Github , List} from 'lucide-react';
 import { Pentagon } from 'lucide-react';
 import { useState } from "react";
-export default function Navbar(){
+export default function Navbar({feature,works,pricing}:any){
 
    const [touched,setTouched] = useState(false)
 
    const toogle = ()=>{
       setTouched(!touched)
+   }
+
+   const moveToFeature = ()=>{
+      if(!feature.current) return
+      feature.current.scrollIntoView({
+         behavior:"smooth",
+         block:"start"
+      })
+   }
+   
+   const moveToworks = ()=>{
+      if(!works.current) return
+      works.current.scrollIntoView({
+         behavior:"smooth",
+         block:"start"
+      })
+   }
+   
+   const moveToprice = ()=>{
+      if(!pricing.current) return
+      pricing.current.scrollIntoView({
+         behavior:"smooth",
+         block:"start"
+      })
    }
 
    return(
@@ -20,10 +44,10 @@ export default function Navbar(){
 	      </div>
 
 	<div className="flex  max-[1000px]:hidden justify-center items-center space-x-5">
-	   <Link href={"/"}>Features</Link>
-	   <Link href={"/"}>How it works</Link>
-      <Link href={"/"}>Pricing</Link>
-	   <Link href={"/"}><Github></Github></Link>
+	   <Link onClick={moveToFeature} href={"/"}>Features</Link>
+	   <Link onClick={moveToworks} href={"/"}>How it works</Link>
+      <Link onClick={moveToprice} href={"/"}>Pricing</Link>
+	   <Link href={"https://github.com/SuperexMack/ffmpeg"}><Github></Github></Link>
 	</div>
 
    <div className="absolute min-[1000px]:hidden right-[10%]">
@@ -35,10 +59,10 @@ export default function Navbar(){
      {touched?(
        <>
        <div className="flex z-50 fixed top-0 bg-white absolute top-20 p-4 flex-col  space-y-5 items-center w-full h-auto border-b border-slate-200 shadow-2xl shadow-slate-300">
-      <Link href={"/"}>Features</Link>
-	   <Link href={"/"}>How it works</Link>
-      <Link href={"/"}>Pricing</Link>
-	   <Link href={"/"}><Github></Github></Link>
+      <Link onClick={moveToFeature} href={"/"}>Features</Link>
+	   <Link onClick={moveToworks} href={"/"}>How it works</Link>
+      <Link onClick={moveToprice} href={"/"}>Pricing</Link>
+	   <Link href={"https://github.com/SuperexMack/ffmpeg"}><Github></Github></Link>
      </div>
        </>
      ):(

@@ -2,6 +2,7 @@
 
 import { CloudUpload } from 'lucide-react';
 import { useRef, useState } from 'react';
+import Navbar from '../Components/Navbar';
 
 
 export default function AddWaterMark() {
@@ -44,7 +45,9 @@ export default function AddWaterMark() {
 
   
   return (
-    <div className="h-auto">
+    <div className="h-auto mt-[50px] p-3">
+
+      <Navbar></Navbar>
       
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
