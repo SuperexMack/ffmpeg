@@ -50,7 +50,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v3 of Savebiss"})
+  return res.json({msg:"Welcome to the  v3.1 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {
