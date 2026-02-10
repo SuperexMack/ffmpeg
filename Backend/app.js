@@ -50,7 +50,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v3.2 of Savebiss"})
+  return res.json({msg:"Welcome to the  v3.3 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {
@@ -106,8 +106,13 @@ catch(error){
 
 
 app.get("/pooling",async(req,res)=>{
-   if(!path.resolve("./output.txt")) return
-   else{
+  const filePath = path.resolve("./output.txt");
+
+  if (!fs.existsSync(filePath)) {
+    console.log("File does not exist!");
+    return;
+  }
+  else{
      res.sendFile(path.resolve("./addingwatermarkoutput.mp4"));
 
     setTimeout(()=>{

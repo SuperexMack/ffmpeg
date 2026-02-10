@@ -77,7 +77,7 @@ export default function AddWaterMark() {
     } catch (err) {
       console.log("Pooling error:", err);
     }
-  }, 20000); 
+  }, 7000); 
 
   return () => clearInterval(interval); 
 }, [Pool]);
