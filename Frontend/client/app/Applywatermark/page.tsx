@@ -25,7 +25,7 @@ export default function AddWaterMark() {
     const formData = new FormData()
     formData.append("file",file)
 
-    let res = await fetch("http://localhost:9000/getvideo/sendVideo",{
+    let res = await fetch("https://savebiss.onrender.com/getvideo/sendVideo",{
         method:"POST",
         body:formData
     })
