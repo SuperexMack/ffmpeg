@@ -3,6 +3,7 @@
 import { CloudUpload } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Navbar from '../Components/Navbar';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function AddWaterMark() {
@@ -29,10 +30,17 @@ export default function AddWaterMark() {
         body:formData
     })
 
+    if(res.status === 429){
+      const data = await res.json()
+      toast.error(data.msg)
+      return;
+    }
+
     const blob = await res.blob()
     const VideoURL = URL.createObjectURL(blob)
     setLoading(false)
     setVideoLoading(true)
+    toast.success("Video Req sent!!")
     setGotFile(VideoURL)
   }
 
@@ -108,6 +116,7 @@ export default function AddWaterMark() {
 
        
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

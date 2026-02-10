@@ -4,8 +4,23 @@ import express from "express";
 import fs from "fs";
 import cors from "cors";
 import multer from "multer";
+import { rateLimit } from 'express-rate-limit'
 const app = express();
 const PORT = 9000;
+
+const limiter = rateLimit({
+	windowMs: 40 * 60 * 1000, 
+	limit: 2, 
+	standardHeaders: 'draft-8', 
+	legacyHeaders: false,
+	ipv6Subnet: 56,
+  handler: (req,res)=>{
+    res.status(429).json({msg:"Too many req , Try after 40 minutes"})
+  }
+})
+
+
+app.use(limiter)
 
 app.use(cors());
 app.use(express.json({ limit: "100mb" }));
@@ -25,6 +40,10 @@ let storage = multer.diskStorage({
 console.log("mai maiaaya")
 
 var upload = multer({ storage: storage });
+
+app.get("/",(req,res)=>{
+  return res.json({msg:"Welcome to the  v1 of Savebiss"})
+})
 
 app.post("/getvideo/sendVideo", upload.single("file"), (req, res) => {
   
