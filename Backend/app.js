@@ -8,7 +8,11 @@ import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 9000;
 
-app.use(cors());
+app.use(cors({
+  origin:"https://savebiss.vercel.app",
+  methods:["GET","POST"],
+  allowedHeaders:['Content-Type,Authorization']
+}));
 
 
 app.use(express.json({ limit: "100mb" }));
