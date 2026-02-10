@@ -106,7 +106,7 @@ catch(error){
 
 
 app.get("/pooling",async(req,res)=>{
-   if(!path.resolve("video.txt")) return
+   if(!path.resolve("output.txt")) return
    else{
      res.sendFile(path.resolve("./addingwatermarkoutput.mp4"));
 
