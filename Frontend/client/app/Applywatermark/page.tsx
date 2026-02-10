@@ -61,7 +61,12 @@ export default function AddWaterMark() {
   const interval = setInterval(async () => {
     try {
       const response = await fetch("https://savebiss.onrender.com/pooling");
-      if (!response.ok) return; 
+      
+      let checkingData = await response.json()
+
+      if(checkingData.msg === "Video is still processing, please wait"){
+        toast.success("Video is still processing, please wait")
+      }
 
       const blob = await response.blob();
       const VideoURL = URL.createObjectURL(blob);
