@@ -27,7 +27,7 @@ export default function AddWaterMark() {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
-    let res = await fetch("http://localhost:9000/getvideo/sendVideo", {
+    let res = await fetch("https://ffmpeg-production-1b52.up.railway.app/getvideo/sendVideo", {
       method: "POST",
       body: formData,
     });
@@ -48,7 +48,7 @@ export default function AddWaterMark() {
     if (!userId) return;
     const interval = setInterval(async () => {
       try {
-        const response = await fetch(`http://localhost:9000/pooling/${userId}`);
+        const response = await fetch(`https://ffmpeg-production-1b52.up.railway.app/pooling/${userId}`);
         if (response.status === 202){
           toast.info("Processing")
           return
