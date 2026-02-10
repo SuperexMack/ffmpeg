@@ -22,7 +22,12 @@ const limiter = rateLimit({
 
 app.use(limiter)
 
-app.use(cors());
+app.use(cors({
+    origin : 'https://savebiss.vercel.app',
+    methods : ["GET","POST"],
+    allowedHeaders : ['Content-Type,Authorization']
+}))
+
 app.use(express.json({ limit: "100mb" }));
 
 console.log("mai aaya")
