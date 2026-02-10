@@ -70,6 +70,7 @@ export default function AddWaterMark() {
       setVideoLoading(true);
       toast.success("Video Req sent!!");
       setPool(false);
+      console.log("The video dimension is " + VideoURL)
       setGotFile(VideoURL);
 
       clearInterval(interval); 
