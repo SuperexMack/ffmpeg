@@ -8,6 +8,15 @@ import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 9000;
 
+
+// Already did that but commenting for now cuz pooling is not working in production
+
+// app.use(cors({
+//   origin:"https://savebiss.vercel.app",
+//   methods:["GET","POST"],
+//   allowedHeaders:["Content-Type","Authorization"]
+// }));
+
 app.use(cors());
 
 
