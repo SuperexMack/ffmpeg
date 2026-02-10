@@ -1,7 +1,7 @@
 "use client"
 
 import { CloudUpload } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -13,6 +13,8 @@ export default function AddWaterMark() {
   const [gotFile,setGotFile] = useState<string>("")
 
   const [loading,setLoading] = useState(false)
+
+  const [Pool,setPool] = useState(false)
 
   const [Videoloading,setVideoLoading] = useState(false)
 
@@ -36,12 +38,13 @@ export default function AddWaterMark() {
       return;
     }
 
-    const blob = await res.blob()
-    const VideoURL = URL.createObjectURL(blob)
-    setLoading(false)
-    setVideoLoading(true)
-    toast.success("Video Req sent!!")
-    setGotFile(VideoURL)
+    let updata = await res.json()
+
+    setPool(true)
+    
+    toast.success(updata.msg)
+
+    
   }
 
 
@@ -49,6 +52,35 @@ export default function AddWaterMark() {
     const file = e.target.files[0]
     if(file) sendThefile(file)
   }
+
+ 
+
+  useEffect(() => {
+  if (!Pool) return; 
+
+  const interval = setInterval(async () => {
+    try {
+      const response = await fetch("https://savebiss.onrender.com/pooling");
+      if (!response.ok) return; 
+
+      const blob = await response.blob();
+      const VideoURL = URL.createObjectURL(blob);
+
+      setLoading(false);
+      setVideoLoading(true);
+      toast.success("Video Req sent!!");
+      setPool(false);
+      setGotFile(VideoURL);
+
+      clearInterval(interval); 
+    } catch (err) {
+      console.log("Pooling error:", err);
+    }
+  }, 7000); 
+
+  return () => clearInterval(interval); 
+}, [Pool]);
+
 
 
   

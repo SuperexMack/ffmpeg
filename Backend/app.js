@@ -5,11 +5,9 @@ import fs from "fs";
 import cors from "cors";
 import multer from "multer";
 import { rateLimit } from 'express-rate-limit'
-import { promisify } from "util";
 const app = express();
 const PORT = 9000;
 
-const asyncExec = promisify(exec)
 
 
 app.use(cors({
@@ -52,7 +50,7 @@ console.log("mai maiaaya")
 var upload = multer({ storage: storage });
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"Welcome to the  v1.9 of Savebiss"})
+  return res.json({msg:"Welcome to the  v3 of Savebiss"})
 })
 
 app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {
@@ -74,7 +72,9 @@ app.post("/getvideo/sendVideo", upload.single("file"), async(req, res) => {
 
 console.log("aur aandar")
 
-  await asyncExec(command, (error, stderr) => {
+  res.json({msg:"Uploaded , Now wait for some minutes"})
+
+  exec(command, (error, stderr) => {
     if (error) {
       console.error("FFmpeg ERROR");
       console.error(stderr);
@@ -84,12 +84,14 @@ console.log("aur aandar")
     }
     console.log("Dynamic watermark added");
     console.log("aur aur aandar")
-    res.sendFile(path.resolve("./addingwatermarkoutput.mp4"));
-
-    setTimeout(()=>{
-       fs.unlink("./input.mp4", () => {});
-       fs.unlink("./addingwatermarkoutput.mp4", () => {});
-    },3000)
+    const fileContent = 'Hello, world! This content will overwrite any existing file.';
+    fs.writeFile('output.txt',fileContent,(err)=>{
+      if(err){
+        console.error('Error writing file:', err);
+        return;
+      }
+      console.log('File "output.txt" has been written successfully.');
+    })
   });
 
 }
@@ -99,6 +101,23 @@ catch(error){
 }
   
 });
+
+
+
+
+app.get("/pooling",async(req,res)=>{
+   if(!path.resolve("video.txt")) return
+   else{
+     res.sendFile(path.resolve("./addingwatermarkoutput.mp4"));
+
+    setTimeout(()=>{
+       fs.unlink("./input.mp4", () => {});
+       fs.unlink("./addingwatermarkoutput.mp4", () => {});
+       fs.unlink("./output.txt", () => {});
+    },3000)
+  }
+})
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on the PORT number ${PORT}`);
