@@ -27,7 +27,7 @@ export default function AddWaterMark() {
     const formData = new FormData()
     formData.append("file",file)
 
-    let res = await fetch("https://ffmpeg-zy56.vercel.app/getvideo/sendVideo",{
+    let res = await fetch("https://ffmpeg-production-1b52.up.railway.app/getvideo/sendVideo",{
         method:"POST",
         body:formData
     })
@@ -60,7 +60,7 @@ export default function AddWaterMark() {
 
   const interval = setInterval(async () => {
     try {
-      const response = await fetch("https://ffmpeg-zy56.vercel.app/pooling");
+      const response = await fetch("https://ffmpeg-production-1b52.up.railway.app/pooling");
       
       let checkingData = await response.json()
 
