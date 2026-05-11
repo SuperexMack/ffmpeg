@@ -1,0 +1,28 @@
+name: ffmpeg ci-cd 
+
+on: [push]
+
+jobs:
+  deploy:
+    name: building ci 
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Doing ci-cd
+        uses: actions/checkout@v2
+
+      - name: Execute CD pipelines
+        uses: appleboy/ssh-actions@v1.2.0
+        with:
+          host: 69.62.73.109
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY_VPS }}
+          port: 22
+          script: |
+            cd /home/ubuntu/deployed/ffmpeg
+            git pull origin master
+            cd Backend
+            npm install
+            pm2 restart ffmpeg-app || pm2 start app.js --name "ffmpeg-app"
+            pm2 save
+ 
