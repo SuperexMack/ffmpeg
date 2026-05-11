@@ -12,7 +12,7 @@ const PORT = 9000;
 
 app.use(
   cors({
-    origin: "https://savebiss.vercel.app",
+    origin: "https://savebiss.mohitsati.dev",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
