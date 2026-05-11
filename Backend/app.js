@@ -20,7 +20,7 @@ app.use(
 
 app.use(cors());
 
-app.use(express.json({ limit: "100mb" }));
+app.use(express.json({ limit: "500mb" }));
 
 // This is the user's MiddleWare
 
