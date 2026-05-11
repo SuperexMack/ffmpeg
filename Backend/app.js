@@ -74,13 +74,15 @@ app.post(
 
       userData[getUserId] = { status: "Processing" };
 
+      const fontPath = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
+
       const command = `
     ffmpeg -y -i "${filee}" \
 -vf \
-"drawtext=fontfile=font.ttf:fontsize=80:fontcolor=red@0.5:text=userid1345: \
+"drawtext=fontfile='${fontPath}':fontsize=80:fontcolor=red@0.5:text=userid1345: \
  x=if(eq(mod(t\\,2)\\,0)\\,rand(0\\,(W-tw))\\,x): \
  y=if(eq(mod(t\\,3)\\,0)\\,rand(0\\,(H-th))\\,y)" \
--c:v libx264 -crf 1 -c:a copy ${userOutputFileName}
+-c:v libx264 -crf 23 -c:a copy "${userOutputFileName}"
 `;
 
       exec(command, (error) => {
