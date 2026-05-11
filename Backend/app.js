@@ -115,9 +115,9 @@ app.get("/pooling/:id", async (req, res) => {
 
   if (!job) return res.status(404).json({ msg: "Invalid job id" });
 
-  if (job.status === "error") {
+  if (job.status === "processing") {
     res.status(404).json({ msg: "Got an error while converting the file" });
-  } else if (job.status === "Processing") {
+  } else if (job.status === "error") {
     res.status(202).json({ msg: "Video is processing" });
   } else {
     res.sendFile(path.resolve(job.output));
