@@ -56,7 +56,7 @@ var upload = multer({ storage: storage });
 let userData = {};
 
 app.get("/", (req, res) => {
-  return res.json({ msg: "This is the testing phase" });
+  return res.json({ msg: "This is the testing v2 phase" });
 });
 
 app.post(
