@@ -8,26 +8,26 @@ import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 9000;
 
-
 // Already did that but commenting for now cuz pooling is not working in production
 
-// app.use(cors({
-//   origin:"https://savebiss.vercel.app",
-//   methods:["GET","POST"],
-//   allowedHeaders:["Content-Type","Authorization"]
-// }));
+app.use(
+  cors({
+    origin: "https://savebiss.vercel.app",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use(cors());
-
 
 app.use(express.json({ limit: "100mb" }));
 
 // This is the user's MiddleWare
 
-const userMiddleware = (req,res,next)=>{
-  req.userid = Date.now().toString()
-  next()
-}
+const userMiddleware = (req, res, next) => {
+  req.userid = Date.now().toString();
+  next();
+};
 
 const limiter = rateLimit({
   windowMs: 40 * 60 * 1000,
@@ -51,27 +51,30 @@ let storage = multer.diskStorage({
   },
 });
 
-
 var upload = multer({ storage: storage });
 
-let userData = {}
+let userData = {};
 
 app.get("/", (req, res) => {
-  return res.json({ msg: "Welcome to the v4 of Savebiss" });
+  return res.json({ msg: "This is the testing phase" });
 });
 
-app.post("/getvideo/sendVideo", userMiddleware , upload.single("file"), async (req, res) => {
-  try {
-    console.log("Life changing")
-    let getUserId = req.userid
-    
-    let userOutputFileName = `output-${getUserId}.mp4`
+app.post(
+  "/getvideo/sendVideo",
+  userMiddleware,
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      console.log("Life changing");
+      let getUserId = req.userid;
 
-    const filee = req.file.path;
+      let userOutputFileName = `output-${getUserId}.mp4`;
 
-     userData[getUserId] = {status:"Processing"}
+      const filee = req.file.path;
 
-    const command = `
+      userData[getUserId] = { status: "Processing" };
+
+      const command = `
     ffmpeg -y -i "${filee}" \
 -vf \
 "drawtext=fontfile=font.ttf:fontsize=80:fontcolor=red@0.5:text=userid1345: \
@@ -80,49 +83,47 @@ app.post("/getvideo/sendVideo", userMiddleware , upload.single("file"), async (r
 -c:v libx264 -crf 1 -c:a copy ${userOutputFileName}
 `;
 
-
-
-    exec(command, (error) => {
-      if (error) {
+      exec(command, (error) => {
+        if (error) {
           userData[getUserId].status = "error";
           return;
-      }
-      
-      userData[getUserId].status = "done";
-      userData[getUserId].output = userOutputFileName;
-      
-    });
+        }
 
-    res.json({msg:"Video Recived Now wait for some Moments",userid:getUserId})
+        userData[getUserId].status = "done";
+        userData[getUserId].output = userOutputFileName;
+      });
 
-  } 
-  catch (error) {
-    console.log("There is some error while loading the file in the catch part");
-  }
-});
+      res.json({
+        msg: "Video Recived Now wait for some Moments",
+        userid: getUserId,
+      });
+    } catch (error) {
+      console.log(
+        "There is some error while loading the file in the catch part",
+      );
+    }
+  },
+);
 
 app.get("/pooling/:id", async (req, res) => {
   console.log("Inside of pooling");
-  let poolingId  = req.params.id
+  let poolingId = req.params.id;
 
-  let job = userData[poolingId]
+  let job = userData[poolingId];
 
   if (!job) return res.status(404).json({ msg: "Invalid job id" });
 
-
-  if(job.status === "error"){
-    res.status(404).json({msg:"Got an error while converting the file"})
-  }
-  else if(job.status === "Processing"){
-    res.status(202).json({msg:"Video is processing"})
-  }
-  else {
+  if (job.status === "error") {
+    res.status(404).json({ msg: "Got an error while converting the file" });
+  } else if (job.status === "Processing") {
+    res.status(202).json({ msg: "Video is processing" });
+  } else {
     res.sendFile(path.resolve(job.output));
 
     setTimeout(() => {
       fs.unlink(`./input-${poolingId}.mp4`, () => {});
       fs.unlink(`./output-${poolingId}.mp4`, () => {});
-      delete userData[poolingId]
+      delete userData[poolingId];
     }, 3000);
   }
 });

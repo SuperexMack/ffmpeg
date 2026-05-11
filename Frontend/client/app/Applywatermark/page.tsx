@@ -6,17 +6,15 @@ import Navbar from "../Components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function AddWaterMark() {
-
-  interface userinfo{
-    userstatus : string
+  interface userinfo {
+    userstatus: string;
   }
 
-  
   let insertFileRef = useRef<HTMLInputElement>(null);
   const [gotFile, setGotFile] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  const [userId,setUserId] = useState<string|null>(null)
+  const [userId, setUserId] = useState<string | null>(null);
 
   const [Videoloading, setVideoLoading] = useState(false);
 
@@ -28,7 +26,7 @@ export default function AddWaterMark() {
     const formData = new FormData();
     formData.append("file", file);
     // The free servers were not working so i used localLink but we are working on it will fix it soon
-    let res = await fetch("http://localhost:9000/getvideo/sendVideo", {
+    let res = await fetch("http://69.62.73.189:9000/getvideo/sendVideo", {
       method: "POST",
       body: formData,
     });
@@ -38,7 +36,7 @@ export default function AddWaterMark() {
       return;
     }
     let update = await res.json();
-    setUserId(update.userid)
+    setUserId(update.userid);
     toast.success(update.msg);
   };
   const caller = (e: any) => {
@@ -50,19 +48,20 @@ export default function AddWaterMark() {
     const interval = setInterval(async () => {
       try {
         // The free servers were not working so i used localLink but we are working on it will fix it soon
-        const response = await fetch(`http://localhost:9000/pooling/${userId}`);
-        if (response.status === 202){
-          toast.info("Processing")
-          return
+        const response = await fetch(
+          `http://69.62.73.189:9000/pooling/${userId}`,
+        );
+        if (response.status === 202) {
+          toast.info("Processing");
+          return;
         }
 
         if (response.status === 404) {
-            const data = await response.json();
-            toast.error(data.msg || "Processing failed");
-            clearInterval(interval);
-            return;
+          const data = await response.json();
+          toast.error(data.msg || "Processing failed");
+          clearInterval(interval);
+          return;
         }
-
 
         if (response.status !== 200) return;
         const blob = await response.blob();
