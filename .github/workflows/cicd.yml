@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Execute CD pipelines
-        uses: appleboy/ssh-actions@v1.2.0
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: 69.62.73.189
           username: ubuntu
