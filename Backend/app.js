@@ -18,8 +18,6 @@ app.use(
   }),
 );
 
-app.use(cors());
-
 app.use(express.json({ limit: "500mb" }));
 
 // This is the user's MiddleWare
@@ -96,7 +94,7 @@ app.post(
       });
 
       res.json({
-        msg: `Video Recived Now wait for some Moments with userid ${getUserId}`,
+        msg: `Video Recived Now wait for some Moments with userid ${getUserId} and ${userData[getUserId]}`,
         userid: getUserId,
       });
     } catch (error) {
