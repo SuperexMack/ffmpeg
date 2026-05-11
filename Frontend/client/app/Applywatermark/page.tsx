@@ -27,7 +27,7 @@ export default function AddWaterMark() {
     formData.append("file", file);
     // The free servers were not working so i used localLink but we are working on it will fix it soon
     let res = await fetch(
-      "https://api.savebiss.mohitsati.page:9000/getvideo/sendVideo",
+      "https://api.savebiss.mohitsati.page/getvideo/sendVideo",
       {
         method: "POST",
         body: formData,
@@ -52,7 +52,7 @@ export default function AddWaterMark() {
       try {
         // The free servers were not working so i used localLink but we are working on it will fix it soon
         const response = await fetch(
-          `https://api.savebiss.mohitsati.page:9000/pooling/${userId}`,
+          `https://api.savebiss.mohitsati.page/pooling/${userId}`,
         );
         if (response.status === 202) {
           toast.info("Processing");
