@@ -31,7 +31,7 @@ const userMiddleware = (req, res, next) => {
 
 const limiter = rateLimit({
   windowMs: 40 * 60 * 1000,
-  limit: 10,
+  limit: 50,
   standardHeaders: "draft-8",
   legacyHeaders: false,
   ipv6Subnet: 56,
