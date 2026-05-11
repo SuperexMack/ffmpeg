@@ -93,8 +93,10 @@ app.post(
         userData[getUserId].output = userOutputFileName;
       });
 
+      let converter = JSON.stringify(userData[getUserId]);
+
       res.json({
-        msg: `Video Recived Now wait for some Moments with userid ${getUserId} and ${userData[getUserId]}`,
+        msg: `Video Recived Now wait for some Moments with userid ${getUserId} and ${converter}`,
         userid: getUserId,
       });
     } catch (error) {
